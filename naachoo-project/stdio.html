@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dance Studio Management</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #EFEAE3;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Studio container */
+        .studio-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .studio-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 0;
+            background-color: black;
+            color: #EFEAE3;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .studio-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #FF0000;
+        }
+
+        .studio-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: #EFEAE3;
+        }
+
+        .studio-header h1 span {
+            color: #FF0000;
+        }
+
+        .studio-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: white;
+        }
+
+        /* Navigation */
+        .studio-nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .studio-nav button {
+            padding: 12px 25px;
+            background-color: #EFEAE3;
+            color: black;
+            border: 2px solid black;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .studio-nav button:hover,
+        .studio-nav button.active {
+            background-color: #FF0000;
+            color: white;
+            transform: translateY(-3px);
+            border-color: #FF0000;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        /* Image grid */
+        .dance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .dance-card {
+            background-color: #EFEAE3;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            border: 2px solid black;
+        }
+
+        .dance-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255, 0, 0, 0.2);
+            border-color: #FF0000;
+        }
+
+        .dance-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 2px solid black;
+        }
+
+        .dance-card:hover img {
+            border-color: #FF0000;
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .card-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: black;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .card-content h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #FF0000;
+        }
+
+        .card-content p {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #FF0000;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: black;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .enroll-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .enroll-btn:hover {
+            background-color: #FF0000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(255, 0, 0, 0.3);
+        }
+
+        /* Stats section */
+        .studio-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+
+        .stat-card {
+            background-color: #EFEAE3;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid black;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #FF0000;
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 3rem;
+            color: #FF0000;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .stat-card p {
+            color: #555;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            .dance-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .studio-header h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .dance-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .studio-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .studio-nav button {
+                width: 100%;
+            }
+
+            .studio-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .studio-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .studio-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <nav>
+        <img src="./img/logo2.png" id="logo" alt="">
+
+        <div id="nav-part2">
+            <h4><a href="index2.html">Home</a></h4>
+            <h4><a href="stdio.html">Studio</a></h4>
+            <h4><a href="classes.html">Classes</a></h4>
+            <h4><a href="about.html">About</a></h4>
+            <h4><a href="authentication.html">Logout</a></h4>
+        </div>
+    </nav>
+    <div class="studio-container">
+        <header class="studio-header">
+            <h1>NAACHOO <span>DANCE</span> STUDIO</h1>
+            <p>Where passion meets movement</p>
+        </header>
+
+        <div class="studio-stats">
+            <div class="stat-card">
+                <h3>24</h3>
+                <p>Dance Classes</p>
+            </div>
+            <div class="stat-card">
+                <h3>12</h3>
+                <p>Professional Instructors</p>
+            </div>
+            <div class="stat-card">
+                <h3>150+</h3>
+                <p>Active Students</p>
+            </div>
+            <div class="stat-card">
+                <h3>8</h3>
+                <p>Dance Styles</p>
+            </div>
+        </div>
+
+        <nav class="studio-nav">
+            <button class="active" data-filter="all">All Classes</button>
+            <button data-filter="ballet">Ballet</button>
+            <button data-filter="hiphop">Hip Hop</button>
+            <button data-filter="salsa">Salsa</button>
+            <button data-filter="contemporary">Contemporary</button>
+        </nav>
+
+        <div class="dance-grid" id="danceGrid">
+            <!-- Dance cards will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Sample dance class data
+        const danceClasses = [
+            {
+                id: 1,
+                title: "Beginner Ballet",
+                instructor: "Maria Gonzalez",
+                description: "Introduction to ballet techniques and positions for absolute beginners. Perfect for those taking their first steps in dance.",
+                image: "https://images.unsplash.com/photo-1495791185843-c73f2269f669?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fGRhbmNlfGVufDB8fDB8fHww",
+                category: "ballet",
+                level: "Beginner",
+                schedule: "Mon & Wed, 5-6 PM",
+                price: "$60/month"
+            },
+            {
+                id: 2,
+                title: "Advanced Hip Hop",
+                instructor: "Jamal Williams",
+                description: "High-energy class focusing on complex hip hop choreography. For experienced dancers looking to push their limits.",
+                image: "https://plus.unsplash.com/premium_photo-1710400957910-67bad1103974?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YWR2YW5jZSUyMGhpcCUyMGhvcCUyMGRhbmNlfGVufDB8fDB8fHww",
+                category: "hiphop",
+               
+            },
+            {
+                id: 3,
+                title: "Salsa Fundamentals",
+                instructor: "Carlos Mendez",
+                description: "Learn basic salsa steps, turns, and partner work. No experience needed - just bring your enthusiasm!",
+                image: "https://plus.unsplash.com/premium_photo-1702635213230-e0f50b7605e8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8c2Fsc2ElMjBmb3VuZGF0aW9uYWwlMjBkYW5jZXxlbnwwfHwwfHx8MA%3D%3D",
+                category: "salsa",
+                
+            },
+            {
+                id: 4,
+                title: "Contemporary Flow",
+                instructor: "Sophie Chen",
+                description: "Explore fluid movements and emotional expression in contemporary dance. Connect mind and body through movement.",
+                image: "https://images.unsplash.com/photo-1640620963581-8c6a66d09c9b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fENvbnRlbXBvcmFyeSUyMEZsb3clMjBkYW5jZSUyMHN0eWxlfGVufDB8fDB8fHww",
+                category: "contemporary",
+                
+            },
+            {
+                id: 5,
+                title: "Ballet Intermediate",
+                instructor: "Dmitri Petrov",
+                description: "Build on basic techniques with more complex combinations. For dancers with at least 1 year of experience.",
+                image: "https://images.unsplash.com/photo-1673297001292-5e40906c5b71?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGJhbGxldCUyMGludGVybWVkaWF0ZXxlbnwwfHwwfHx8MA%3D%3D",
+                category: "ballet",
+                
+            },
+            {
+                id: 6,
+                title: "Hip Hop Choreography",
+                instructor: "Tasha Robinson",
+                description: "Learn complete routines in various hip hop styles. Each month focuses on a different choreographer's style.",
+                image: "https://images.unsplash.com/photo-1609602961949-eddbb90383cc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fEhpcCUyMEhvcCUyMENob3Jlb2dyYXBoeSUyMGRhbmNlfGVufDB8fDB8fHww",
+                category: "hiphop",
+                
+            },
+            {
+                id: 7,
+                title: "Salsa Partner Work",
+                instructor: "Isabella Rodriguez",
+                description: "Advanced techniques for salsa dancing with a partner. Focus on connection, timing, and styling.",
+                image: "https://plus.unsplash.com/premium_photo-1694558055052-084092c54f07?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8U2Fsc2ElMjBQYXJ0bmVyJTIwV29yayUyMGRhbmNlfGVufDB8fDB8fHww",
+                category: "salsa",
+                
+            },
+            {
+                id: 8,
+                title: "Contemporary Improv",
+                instructor: "Liam O'Connor",
+                description: "Develop your improvisation skills in contemporary dance. Learn to create spontaneously and authentically.",
+                image: "https://images.unsplash.com/photo-1575140011062-adeaec7c6d95?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjR8fENvbnRlbXBvcmFyeSUyMEltcHJvdiUyMGRhbmNlfGVufDB8fDB8fHww",
+                
+            }
+        ];
+
+        // DOM elements
+        const danceGrid = document.getElementById('danceGrid');
+        const filterButtons = document.querySelectorAll('.studio-nav button');
+
+        // Initialize the dance grid
+        function initDanceGrid(filter = 'all') {
+            danceGrid.innerHTML = '';
+
+            const filteredClasses = filter === 'all'
+                ? danceClasses
+                : danceClasses.filter(cls => cls.category === filter);
+
+            filteredClasses.forEach(danceClass => {
+                const danceCard = document.createElement('div');
+                danceCard.className = 'dance-card';
+
+                danceCard.innerHTML = `
+                    <img src="${danceClass.image}" alt="${danceClass.title}">
+                    <div class="card-content">
+                        <h3>${danceClass.title}</h3>
+                        <p>${danceClass.description}</p>
+                    </div>
+                `;
+
+                danceGrid.appendChild(danceCard);
+            });
+        }
+
+        // Filter functionality
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active state
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Filter the grid
+                const filter = button.dataset.filter;
+                initDanceGrid(filter);
+            });
+        });
+
+        // Enroll button functionality
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('enroll-btn')) {
+                const card = e.target.closest('.dance-card');
+                const title = card.querySelector('h3').textContent;
+                alert(`You've enrolled in ${title}! We'll contact you with details.`);
+            }
+        });
+
+        // Initialize the module
+        window.addEventListener('DOMContentLoaded', () => {
+            initDanceGrid();
+        });
+    </script>
+</body>
+
+</html>
